@@ -78,9 +78,14 @@ p {
 
 a {
   color: #1199c3;
-  text-decoration: none;
   margin-top: 10px;
   display: block;
+  text-decoration: none;
+}
+
+a:hover,
+a:visited {
+  text-decoration: none;
 }
 
 .welcome-message {
@@ -88,11 +93,13 @@ a {
   font-size: 18px;
   color: #f3f3f3;
   line-height: 28px;
+  padding-left: 0;
 }
 
 #skillsH3 {
   color: #f5ae23;
   display: none;
+  padding: 10px 10px;
 }
 
 .orange {
@@ -129,6 +136,16 @@ a {
   background-color: #484848;
 }
 
+#headerContacts,
+#footerContacts {
+  padding: 10px;
+}
+
+.no-padding {
+  padding: 0;
+  height: 18px;
+  width: 18px;;
+}
 
 .flex-box {
   display: -webkit-flex;
@@ -146,6 +163,10 @@ a {
   padding-bottom: 2.5%
 }
 
+hr {
+  margin-top: 0;
+}
+
 ul {
   list-style-type: none;
 }
@@ -156,16 +177,13 @@ ul {
   margin: 10px;
   width: 200px;
   display: none;
-  border: solid 7px;
+  border: solid 1px;
   border-color: #f5ae23;
+  align-content: center;
 }
 
 img {
   padding: 10px;
-}
-
-#location {
-
 }
 
 /* Bar chart stuff */
@@ -212,6 +230,13 @@ span {
   }
 }
 
+@media only screen and (min-width: 750px) {
+  #skillsH3,
+  .biopic {
+    display: block;
+  }
+}
+
 #map {
   display: block;
   height: 100%;
@@ -225,9 +250,12 @@ span {
   padding-bottom: 5%;
 }
 
-@media only screen and (min-width: 750px) {
-  #skillsH3,
-  .biopic {
-    display: block;
-  }
+#panel {
+  top: 5px;
+  left: 50%;
+  margin-left: -180px;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
 }
