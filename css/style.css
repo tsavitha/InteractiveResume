@@ -49,7 +49,8 @@ h1 {
     font-size: 40px;
     color: #f5ae23;
     line-height: 48px;
-    display: inline;
+    display: inline-block;
+    margin: 0;
 }
 
 h2 {
@@ -130,10 +131,6 @@ table {
     width: 100px;
 }
 
-/*img {
-    padding: 10px;
-}*/
-
 span {
     padding: 5px;
 }
@@ -180,7 +177,6 @@ span {
     padding: 0;
     margin: 0 auto;
     width: 200px;
-    display: block;
     border: solid 1px;
     border-color: #f5ae23;
     align-content: center;
@@ -191,7 +187,7 @@ span {
 }
 
 #header {
-    margin-top: 75px;
+    margin-top: 7%;
     padding-bottom: 20px;
     background-color: #484848;
 }
@@ -206,13 +202,14 @@ span {
     padding: 10px;
 }
 
+#name,
 #location {
-    margin: 15px 0 0 0;
+    padding: 0;
+    text-align: center;
 }
 
 #skillsH3 {
     color: #f5ae23;
-    display: none;
     padding: 10px 10px;
 }
 
@@ -232,47 +229,26 @@ span {
     text-align: center;
 }
 
-/* Bar chart stuff */
-.chart {
-    font: 10px sans-serif;
-    background-color: #4a4a4a;
-    text-align: right;
-    padding: 3px;
-    margin: 1px;
-    height: 12px;
-    color: white;
-    display: inline-block;
-}
-
 @media only screen and (max-width: 1024px) {
     #letsConnect {
         margin-top: 5%;
     }
 }
 
-@media only screen and (max-width: 900px) {
-    .biopic {
-        width: 175px;
-    }
-}
-
 @media only screen and (max-width: 750px) {
     #letsConnect {
-        margin-top: 10%;
+        margin-top: 5%;
     }
 
-    .biopic {
-        width: 150px;
+    #header {
+        margin: 0;
+    }
+
+    #map {
+        height: 300px;
     }
 
     .welcome-message {
         display: none;
-    }
-}
-
-@media only screen and (min-width: 750px) {
-    #skillsH3,
-    .biopic {
-        display: block;
     }
 }
