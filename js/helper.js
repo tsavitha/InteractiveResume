@@ -8,27 +8,31 @@
 
 /*
 
- These are HTML strings. JavaScript functions in resumeBuilder.js replaces the %data% placeholder text with information from
- respective objects.
+ These are HTML strings. JavaScript functions in resumeBuilder.js replaces the following..
+ -- %data% placeholder text with information from respective objects
+ -- %imagefile% placeholder text with the respective images from the 'images' directory
+ -- %url% placeholder text with the url of the corresponding schools and online courses
 
  */
 
-var HTMLheaderName = '<h1>%data% ';
+var HTMLheaderName = '<h1 class="orange-text pull-right">%data% ';
 var HTMLheaderRole = '<small class="white-text">%data%</small></h1>';
+var HTMLlocation = '<h3 id="location" class="white-text pull-left"><img src="%imagefile%">%data%</h3>';
 
-//<img src="%imagefile%">
-var HTMLmobile = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> mobile</span><span class="white-text">%data%</span></div>';
-var HTMLemail = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> email</span><span class="white-text">%data%</span></div>';
-var HTMLgithub = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> github</span><span class="white-text">%data%</span></div>';
-var HTMLtwitter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> twitter</span><span class="white-text">%data%</span></div>';
-
-var HTMLlocation = '<h3 id="location" class="white-text pull-right">%data%</h3>';
-
-var HTMLbioPic = '<img src="%data%" class="biopic">';
+var HTMLbioPic = '<img src="%data%" class="biopic img-circle img-responsive">';
 var HTMLWelcomeMsg = '<span class="welcome-message">%data%</span>';
+var HTMLmobile = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">mobile <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
+var HTMLemail = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">email <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
+var HTMLgithub = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">github <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
+var HTMLtwitter = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">twitter <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
 
-var HTMLskillsStart = '<h3 id="skillsH3">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
-var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
+var HTMLmobileFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> mobile</span><span class="white-text">%data%</span></div>';
+var HTMLemailFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> email</span><span class="white-text">%data%</span></div>';
+var HTMLgithubFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> github</span><span class="white-text">%data%</span></div>';
+var HTMLtwitterFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> twitter</span><span class="white-text">%data%</span></div>';
+
+var HTMLskillsStart = '<h3 id="skillsH3">Skills on a scale of 10</h3><ul id="skills" class="list-group"></ul>';
+var HTMLskills = '<li class="list-group-item dark-gray"><span class="badge orange-text">%rating%</span><span class="white-text">%data%</span></li>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
 var HTMLworkEmployer = '<a href="#">%data%';
@@ -163,12 +167,24 @@ function initializeMap() {
         var lon = placeData.geometry.location.lng();  // longitude from the place service
         var name = placeData.formatted_address;   // name of the place from the place service
         var bounds = window.mapBounds;   // current boundaries of the map window
+        var pinImage = {
+            url: "images/redpin.png"//,
+            //size: new google.maps.Size(32, 32)
+        };
+        /*
+         if(name.indexOf(bio.contacts.location) >= 0) {
+         pinImage = "images/home.png";
+         }
+         else {
+         pinImage = "images/purple_pin.png";
+         }*/
 
         // marker is an object with additional data about the pin for a single location
         var marker = new google.maps.Marker({
             map: map,
             position: placeData.geometry.location,
-            title: name
+            title: name,
+            icon: pinImage
         });
 
         // infoWindows are the little helper windows that open when you click
@@ -192,13 +208,14 @@ function initializeMap() {
         // zoom back out after 5 seconds
         google.maps.event.addListener(marker, 'click', function () {
             window.setTimeout(function () {
-                map.setZoom(3);
+                map.setZoom(2);
                 map.setCenter({lat: 35, lng: 340});
             }, 5000);
 
             map.setZoom(12);
             map.setCenter(marker.getPosition());
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(panelDiv);
+
+            //map.controls[google.maps.ControlPosition.TOP_LEFT].push(panelDiv);
         });
 
         // this is where the pin actually gets added to the map.
