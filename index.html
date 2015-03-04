@@ -8,22 +8,22 @@ This HTML document contains the layout of the website.
   <meta charset="utf-8">
 
   <!-- Tells the browser what the title of this page should be. -->
-  <title>Resume</title>
+  <title>Resume - Savitha Thiyagarajan</title>
 
-  <!-- Load the page styles. -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <!-- Load the page and bootstrap stylesheets -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 
   <script src="js/jQuery.js"></script>
 
-  <script src="js/helper.js"></script>
-
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+  <script src="js/helper.js"></script>
 
   <meta name="viewport" content="width=device-width">
 </head>
 
-<body unresolved>
+<body>
 <div id="main" class="container">
 
     <!--
@@ -36,7 +36,7 @@ This HTML document contains the layout of the website.
   <div id="header">
     <div id="name"></div>
     <div id="location"></div>
-    <hr/>
+    <hr>
     <div class="row">
       <div class="col-lg-6 col-md-6">
         <div id="welcome-msg"></div>
@@ -51,28 +51,30 @@ This HTML document contains the layout of the website.
         <h2>Work Experience</h2>
       </a>
       <div id="work-content" class="collapse well white"></div>
-    </div>
+  </div>
   <div id="projects" class="gray">
       <a data-toggle="collapse" href="#project-content" aria-expanded="false" aria-controls="project-content">
         <h2>Projects</h2>
       </a>
 
     <div id="project-content" class="collapse well white"></div>
-    </div>
-    <div id="education" class="gray">
-      <a data-toggle="collapse" href="#education-content" aria-expanded="false" aria-controls="education-content">
-        <h2>Education</h2>
-      </a>
-      <div id="education-content" class="collapse well white"></div>
-    </div>
-  <div id="mapDiv" class="gray">
-      <a href="#mapDiv"><h2>Where I've Lived and Worked</h2></a>
-    </div>
+  </div>
+  <div id="education" class="gray">
+    <a data-toggle="collapse" href="#education-content" aria-expanded="false" aria-controls="education-content">
+      <h2>Education</h2>
+    </a>
 
-    <div id="letsConnect" class='dark-gray'>
-      <h2 class='orange center-text'>Let's Connect</h2>
-        <div id="footerContacts" class="row dark-gray"></div>
-    </div>
+    <div id="education-content" class="collapse well white"></div>
+  </div>
+  <div id="mapDiv" class="gray">
+    <a href="#mapDiv"><h2>Where I've Lived and Worked</h2></a>
+  </div>
+
+  <div id="letsConnect" class='dark-gray'>
+    <h2 class='orange center-text'>Let's Connect</h2>
+
+    <div id="footerContacts" class="row dark-gray"></div>
+  </div>
   </div>
 
   <!--
@@ -84,25 +86,5 @@ This HTML document contains the layout of the website.
   <script src="js/resumeBuilder.js"></script>
   <script src="js/bootstrap.min.js"></script>
 
-
-  <script type="text/javascript">
-
-    if(document.getElementsByTagName('h1').length === 0) {
-      document.getElementById('header').style.display = 'none';
-    }
-    if(document.getElementsByClassName('work-entry').length === 0) {
-      document.getElementById('workExperience').style.display = 'none';
-    }
-    if(document.getElementsByClassName('project-entry').length === 0) {
-      document.getElementById('projects').style.display = 'none';
-    }
-    if(document.getElementsByClassName('education-entry').length === 0) {
-      document.getElementById('education').style.display = 'none';
-    }
-    if(document.getElementById('map') === null) {
-      document.getElementById('mapDiv').style.display = 'none';
-    }
-
-  </script>
 </body>
 </html>

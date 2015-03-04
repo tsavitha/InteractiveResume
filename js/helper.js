@@ -15,16 +15,16 @@
 
  */
 
-var HTMLheaderName = '<h1 class="orange-text pull-right">%data% ';
+var HTMLheaderName = '<h1 class="orange-text">%data% ';
 var HTMLheaderRole = '<small class="white-text">%data%</small></h1>';
-var HTMLlocation = '<h3 id="location" class="white-text pull-left"><img src="%imagefile%">%data%</h3>';
+var HTMLlocation = '<h3 class="white-text"><img src="%imagefile%">%data%</h3>';
 
-var HTMLbioPic = '<img src="%data%" class="biopic img-circle img-responsive">';
+var HTMLbioPic = '<img src="%data%" class="biopic img-circle img-responsive" alt="Picture">';
 var HTMLWelcomeMsg = '<span class="welcome-message">%data%</span>';
-var HTMLmobile = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">mobile <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
-var HTMLemail = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">email <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
-var HTMLgithub = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">github <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
-var HTMLtwitter = '<div class="row"><div class="col-lg-6 col-md-6"><span class="orange-text">twitter <img src="%imagefile%"></span></div><div class="col-lg-6 col-md-6"><span class="white-text">%data%</span></div></div>';
+var HTMLmobile = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2"><span class="orange-text pull-right"><img src="%imagefile%" alt="mobile icon"> mobile</span></div><div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
+var HTMLemail = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2"><span class="orange-text pull-right"><img src="%imagefile%" alt="email icon"> email</span></div><div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
+var HTMLgithub = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2"><span class="orange-text pull-right"><img src="%imagefile%" alt="github icon"> github</span></div><div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
+var HTMLtwitter = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2"><span class="orange-text pull-right"><img src="%imagefile%" alt="twitter icon"> twitter</span></div><div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
 
 var HTMLmobileFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> mobile</span><span class="white-text">%data%</span></div>';
 var HTMLemailFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> email</span><span class="white-text">%data%</span></div>';
@@ -60,11 +60,11 @@ var HTMLonlineDates = '<div class="date-text">%data%</div>';
 var HTMLonlineURL = '<br><a href="%url%">%data%</a>';
 
 var googleMap = '<div id="map"></div>';
-//var panelDiv = '<div id="panel"><input type="button" value="Go Back" onclick="goBack();"></div>';
 
 /*
  The next few lines about clicks are for the Collecting Click Locations.
  */
+
 clickLocations = [];
 
 function logClicks(x, y) {
@@ -134,22 +134,24 @@ function initializeMap() {
         // adds the single location property from bio to the locations array
         locations.push(bio.contacts.location);
 
+        var i;
+
         // iterates through school locations and appends each location to
         // the locations array
-        for (var school in education.schools) {
-            locations.push(education.schools[school].location);
+        for (i = 0; i < education.schools.length; i++) {
+            locations.push(education.schools[i].location);
         }
 
         // iterates through work locations and appends each location to
         // the locations array
-        for (var job in work.jobs) {
-            locations.push(work.jobs[job].location);
+        for (i = 0; i < work.jobs.length; i++) {
+            locations.push(work.jobs[i].location);
         }
 
         // iterates through project locations and appends each location to
         // the locations array
-        for (var project in projects.projects) {
-            locations.push(projects.projects[project].location);
+        for (i = 0; i < projects.projects.length; i++) {
+            locations.push(projects.projects[i].location);
         }
 
         return locations;
@@ -169,15 +171,7 @@ function initializeMap() {
         var bounds = window.mapBounds;   // current boundaries of the map window
         var pinImage = {
             url: "images/redpin.png"//,
-            //size: new google.maps.Size(32, 32)
         };
-        /*
-         if(name.indexOf(bio.contacts.location) >= 0) {
-         pinImage = "images/home.png";
-         }
-         else {
-         pinImage = "images/purple_pin.png";
-         }*/
 
         // marker is an object with additional data about the pin for a single location
         var marker = new google.maps.Marker({
@@ -248,11 +242,11 @@ function initializeMap() {
         var service = new google.maps.places.PlacesService(map);
 
         // Iterates through the array of locations, creates a search object for each location
-        for (var place in locations) {
+        for (var i = 0; i < locations.length; i++) {
 
             // the search request object
             var request = {
-                query: locations[place]
+                query: locations[i]
             };
 
             // Actually searches the Google Maps API for location data and runs the callback
