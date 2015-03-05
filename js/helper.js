@@ -4,9 +4,11 @@
  support the code to build the online resume.
 
 
- All statements in this 'js' file are enclosed in a self invoking anonymous functions to avoid gloabl variable
+ All statements in this 'js' file are enclosed in a self invoking anonymous function to avoid gloabl variable
  declarations. Variables from 'resumeBuilder.js' are accessed using the global namespace.
  */
+
+"use strict";
 
 (function () {
 
@@ -14,55 +16,53 @@
 
     /*
      -- These are HTML strings. JavaScript functions in resumeBuilder.js replaces the following..
-     -- %data% placeholder text with information from respective objects
-     -- %imagefile% placeholder text with the respective images from the 'images' directory
-     -- %url% placeholder text with the url of the corresponding schools and online courses
+     -- %data% placeholder text with information from respective objects, image file names from
+     -- the 'images' directory and url of the corresponding schools and online courses
 
      */
 
-    ns.testString = '<h3 class="white-text"><img src="%data%">%data%</h3>';
     ns.HTMLheaderName = '<h1 class="orange-text">%data% ';
 
     ns.HTMLheaderRole = '<small class="white-text">%data%</small></h1>';
 
-    ns.HTMLlocation = '<h3 class="white-text"><img src="%imagefile%">%data%</h3>';
+    ns.HTMLlocation = '<h3 class="white-text"><img src="%data%">%data%</h3>';
 
     ns.HTMLbioPic = '<img src="%data%" class="biopic img-circle img-responsive" alt="Picture">';
 
     ns.HTMLWelcomeMsg = '<span class="welcome-message">%data%</span>';
 
     ns.HTMLmobile = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2">' +
-    '<span class="orange-text pull-right"><img src="%imagefile%" alt="mobile icon"> mobile</span></div>' +
+    '<span class="orange-text pull-right"><img src="%data%" alt="mobile icon"> mobile</span></div>' +
     '<div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
 
     ns.HTMLemail = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2">' +
-    '<span class="orange-text pull-right"><img src="%imagefile%" alt="email icon"> email</span></div>' +
+    '<span class="orange-text pull-right"><img src="%data%" alt="email icon"> email</span></div>' +
     '<div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
 
     ns.HTMLgithub = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2">' +
-    '<span class="orange-text pull-right"><img src="%imagefile%" alt="github icon"> github</span></div>' +
+    '<span class="orange-text pull-right"><img src="%data%" alt="github icon"> github</span></div>' +
     '<div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
 
 
     ns.HTMLtwitter = '<div class="row"><div class="col-lg-3 col-md-3 col-lg-offset-2 col-md-offset-2">' +
-    '<span class="orange-text pull-right"><img src="%imagefile%" alt="twitter icon"> twitter</span></div>' +
+    '<span class="orange-text pull-right"><img src="%data%" alt="twitter icon"> twitter</span></div>' +
     '<div class="col-lg-7 col-md-7"><span class="white-text">%data%</span></div></div>';
 
-    ns.HTMLmobileFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> mobile</span>' +
+    ns.HTMLmobileFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%data%"> mobile</span>' +
     '<span class="white-text">%data%</span></div>';
 
-    ns.HTMLemailFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> email</span>' +
+    ns.HTMLemailFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%data%"> email</span>' +
     '<span class="white-text">%data%</span></div>';
 
-    ns.HTMLgithubFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> github</span>' +
+    ns.HTMLgithubFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%data%"> github</span>' +
     '<span class="white-text">%data%</span></div>';
 
-    ns.HTMLtwitterFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%imagefile%"> twitter</span>' +
+    ns.HTMLtwitterFooter = '<div class="col-lg-3 col-md-3"><span class="orange-text"><img src="%data%"> twitter</span>' +
     '<span class="white-text">%data%</span></div>';
 
     ns.HTMLskillsStart = '<h3 id="skillsH3">Skills on a scale of 10</h3><ul id="skills" class="list-group"></ul>';
 
-    ns.HTMLskills = '<li class="list-group-item dark-gray"><span class="badge orange-text">%rating%</span>' +
+    ns.HTMLskills = '<li class="list-group-item dark-gray"><span class="badge orange-text">%data%</span>' +
     '<span class="white-text">%data%</span></li>';
 
     ns.HTMLworkStart = '<div class="work-entry"></div>';
@@ -79,7 +79,7 @@
 
     ns.HTMLprojectStart = '<div class="project-entry"></div>';
 
-    ns.HTMLprojectTitle = '<a href="#">%data%</a>';
+    ns.HTMLprojectTitle = '<a href="%data%" target="_blank">%data%</a>';
 
     ns.HTMLprojectDates = '<div class="date-text">%data%</div>';
 
@@ -87,7 +87,7 @@
 
     ns.HTMLschoolStart = '<div class="education-entry"></div>';
 
-    ns.HTMLschoolName = '<a href="%url%">%data%';
+    ns.HTMLschoolName = '<a href="%data%" target="_blank">%data%';
 
     ns.HTMLschoolDegree = ' -- %data%</a>';
 
@@ -99,13 +99,13 @@
 
     ns.HTMLonlineClasses = '<h3>Online Classes</h3>';
 
-    ns.HTMLonlineTitle = '<a href="%url%">%data%';
+    ns.HTMLonlineTitle = '<a href="%data%" target="_blank">%data%';
 
     ns.HTMLonlineSchool = ' - %data%</a>';
 
     ns.HTMLonlineDates = '<div class="date-text">%data%</div>';
 
-    ns.HTMLonlineURL = '<br><a href="%url%">%data%</a>';
+    ns.HTMLonlineURL = '<br><a href="%data%" target="_blank">%data%</a>';
 
     ns.googleMap = '<div id="map"></div>';
 
@@ -113,7 +113,7 @@
      The next few lines about clicks are for the Collecting Click Locations.
      */
 
-    clickLocations = [];
+    var clickLocations = [];
 
     function logClicks(x, y) {
         clickLocations.push(
@@ -138,7 +138,7 @@
      See the documentation below for more details.
      https://developers.google.com/maps/documentation/javascript/reference
      */
-    ns.map;    // declares a global map variable
+    var map;    // declares a global map variable
 
     /*
      Start here! initializeMap() is called when page is loaded.
@@ -167,7 +167,7 @@
 
         // This next line makes `map` a new Google Map JavaScript Object and attaches it to
         // <div id="map">, which is appended as part of an exercise late in the course.
-        ns.map = new google.maps.Map(document.querySelector('#map'), mapOptions);
+        map = new google.maps.Map(document.querySelector('#map'), mapOptions);
 
 
         /*
@@ -214,9 +214,7 @@
             var propertyName = (placeName.split(",")[0]).toLowerCase();
             console.log(propertyName);
 
-            var description = ns.locationDetails[propertyName];
-
-            return description;
+            return ns.locationDetails[propertyName];
         }
 
         /*
@@ -238,7 +236,7 @@
 
             // marker is an object with additional data about the pin for a single location
             var marker = new google.maps.Marker({
-                map: ns.map,
+                map: map,
                 position: placeData.geometry.location,
                 title: name,
                 icon: pinImage
@@ -253,19 +251,19 @@
 
             // add a 'mouse over' event to display a pop-up containing information about the pin
             google.maps.event.addListener(marker, 'mouseover', function () {
-                infoWindow.open(ns.map, marker);
+                infoWindow.open(map, marker);
             });
 
             // add a 'mouse out' event to close the pop-up when the mouse moves away from the pin
             google.maps.event.addListener(marker, 'mouseout', function () {
-                infoWindow.close(ns.map, marker);
+                infoWindow.close(map, marker);
             });
 
             // add a 'click' event to zoom in to the location when a pin is clicked and then
             // zoom back out after 10 seconds
             google.maps.event.addListener(marker, 'click', function () {
 
-                infoWindow.close(ns.map, marker); // Close the info window showing the name of the location
+                infoWindow.close(map, marker); // Close the info window showing the name of the location
 
                 // getting content for the description info window that is displayed when the map is zoomed in
                 var contentString = getDescriptionContent(name);
@@ -278,15 +276,15 @@
                 // setting a 10 second timeout after which the map zooms out to show all the pins and
                 // closes the description info window
                 window.setTimeout(function () {
-                    ns.map.setZoom(2);
-                    ns.map.setCenter({lat: 35, lng: 340});
-                    detailInfoWindow.close(ns.map, marker);
+                    map.setZoom(2);
+                    map.setCenter({lat: 35, lng: 340});
+                    detailInfoWindow.close(map, marker);
                 }, 10000);
 
                 // opens the description info window and zooms in to the location of the pin that was clicked
-                detailInfoWindow.open(ns.map, marker);
-                ns.map.setZoom(12);
-                ns.map.setCenter(marker.getPosition());
+                detailInfoWindow.open(map, marker);
+                map.setZoom(12);
+                map.setCenter(marker.getPosition());
 
             });
 
@@ -294,9 +292,9 @@
             // bounds.extend() takes in a map location object
             bounds.extend(new google.maps.LatLng(lat, lon));
             // fit the map to the new marker
-            ns.map.fitBounds(bounds);
+            map.fitBounds(bounds);
             // center the map
-            ns.map.setCenter(bounds.getCenter());
+            map.setCenter(bounds.getCenter());
         }
 
         /*
@@ -317,7 +315,7 @@
 
             // creates a Google place search service object. PlacesService does the work of
             // actually searching for location data.
-            var service = new google.maps.places.PlacesService(ns.map);
+            var service = new google.maps.places.PlacesService(map);
 
             // Iterates through the array of locations, creates a search object for each location
             for (var i = 0; i < locations.length; i++) {
@@ -353,6 +351,6 @@
 // and adjust map bounds
     window.addEventListener('resize', function () {
         // Make sure the map bounds get updated on page resize
-        ns.map.fitBounds(mapBounds);
+        map.fitBounds(mapBounds);
     });
 })();

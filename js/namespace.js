@@ -4,5 +4,7 @@
  This way, possible variable name conflicts are minimized.
  */
 
+"use strict";
+
 var MYRESUMEAPP = MYRESUMEAPP || {}; // Global Namespace
 

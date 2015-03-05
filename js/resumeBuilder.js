@@ -4,13 +4,45 @@
  -- All of these objects also contain a display function to display the other object members as part of
  -- the online resume.
 
- -- All statements in this 'js' file are enclosed in a self invoking anonymous functions to avoid gloabl variable
+ -- All statements in this 'js' file are enclosed in a self invoking anonymous function to avoid gloabl variable
  -- declarations. Variables from 'helper.js' are accessed using the global namespace.
 
  */
 
+"use strict";
+
 (function () {
     var ns = MYRESUMEAPP; // Creating an alias for the global namespace.
+
+    /*
+     -- replacePlaceHolder() is a helper function that replaces all the placeholder text in the HTML strings
+     -- with the corresponding data from the 'bio, ''work', 'projects' and 'education' objects.
+     -- The first argument is the string that needs to be replaced followed by the data that will replace the
+     -- placeholder text.
+     */
+    function replacePlaceholder() {
+
+        var stringToBeReplaced = arguments[0];
+        var i = 1;
+
+        while (i < arguments.length) {
+            stringToBeReplaced = stringToBeReplaced.replace("%data%", arguments[i]);
+            i++;
+        }
+
+        return stringToBeReplaced;
+    }
+
+    /*
+     -- appendToResume(filter, contentArr) is a helper function that appends the contents of the contentArr
+     -- to a 'div' in the index.html file specified by the filter.
+     */
+    function appendToResume(filter, contentArr) {
+
+        for (var i = 0; i < contentArr.length; i++) {
+            $(filter).append(contentArr[i]);
+        }
+    }
 
     /*
      -- The 'bio' object contains all the personal information that is displayed in the header section of the resume.
@@ -44,93 +76,55 @@
         ]
     };
 
-    function replacePlaceholder() {
-
-        var stringToBeReplaced = arguments[0];
-        var i = 1;
-        //var replacedString;
-
-        while (i < arguments.length) {
-            stringToBeReplaced = stringToBeReplaced.replace("%data%", arguments[i]);
-            i++;
-        }
-
-        return stringToBeReplaced;
-    }
-
     /*
-     -- Display function to display personal and contact information including skill set.
+     -- display() function to display personal and contact information including skill set.
      -- The different placeholder text are replaced with the corresponding property values from the 'bio' object
      */
 
     ns.bio.display = function () {
 
         ns.HTMLbioPic = replacePlaceholder(ns.HTMLbioPic, ns.bio.pictureUrl);
-        $('#picture').append(ns.HTMLbioPic);
+        appendToResume('#picture', [ns.HTMLbioPic]); // adding picture to Resume
 
-        ns.HTMLheaderName = ns.HTMLheaderName.replace("%data%", ns.bio.name);
-        ns.HTMLheaderRole = ns.HTMLheaderRole.replace("%data%", ns.bio.role);
-        /*
-         ns.HTMLheaderName = replacePlaceholder(ns.HTMLheaderName, ns.bio.name);
-         ns.HTMLheaderRole = replacePlaceholder(ns.HTMLheaderRole, ns.bio.role);
-         */
-        $('#name').prepend(ns.HTMLheaderName + ns.HTMLheaderRole);
+        ns.HTMLheaderName = replacePlaceholder(ns.HTMLheaderName, ns.bio.name);
+        ns.HTMLheaderRole = replacePlaceholder(ns.HTMLheaderRole, ns.bio.role);
+        appendToResume('#name', [ns.HTMLheaderName + ns.HTMLheaderRole]); // adding name and role to Resume
 
 
-        var testStr = replacePlaceholder(ns.testString, "images/home.png", ns.bio.contacts.location);
+        ns.HTMLlocation = replacePlaceholder(ns.HTMLlocation, "images/home.png", ns.bio.contacts.location);
+        appendToResume('#location', [ns.HTMLlocation]); // adding current location to Resume
 
-
-        ns.HTMLlocation = (ns.HTMLlocation.replace("%data%", ns.bio.contacts.location))
-            .replace("%imagefile%", "images/home.png");
-        $('#location').append(ns.HTMLlocation);
-
-        ns.HTMLWelcomeMsg = ns.HTMLWelcomeMsg.replace("%data%", ns.bio.welcomeMessage);
-        $("#welcome-msg").append(ns.HTMLWelcomeMsg);
+        ns.HTMLWelcomeMsg = replacePlaceholder(ns.HTMLWelcomeMsg, ns.bio.welcomeMessage);
+        appendToResume("#welcome-msg", [ns.HTMLWelcomeMsg]); // adding a message to Resume
 
         var headerFilter = "#headerContacts";
+        var headerArr = [];
 
-        ns.HTMLmobile = (ns.HTMLmobile.replace("%data%", ns.bio.contacts.mobile))
-            .replace("%imagefile%", "images/phone.png");
-        $(headerFilter).append(ns.HTMLmobile);
-
-        ns.HTMLemail = (ns.HTMLemail.replace("%data%", ns.bio.contacts.email))
-            .replace("%imagefile%", "images/email.png");
-        $(headerFilter).append(ns.HTMLemail);
-
-        ns.HTMLgithub = (ns.HTMLgithub.replace("%data%", ns.bio.contacts.github))
-            .replace("%imagefile%", "images/github.png");
-        $(headerFilter).append(ns.HTMLgithub);
-
-        ns.HTMLtwitter = (ns.HTMLtwitter.replace("%data%", ns.bio.contacts.twitter))
-            .replace("%imagefile%", "images/twitter.png");
-        $(headerFilter).append(ns.HTMLtwitter);
+        headerArr.push(replacePlaceholder(ns.HTMLmobile, "images/phone.png", ns.bio.contacts.mobile));
+        headerArr.push(replacePlaceholder(ns.HTMLemail, "images/email.png", ns.bio.contacts.email));
+        headerArr.push(replacePlaceholder(ns.HTMLgithub, "images/github.png", ns.bio.contacts.github));
+        headerArr.push(replacePlaceholder(ns.HTMLtwitter, "images/twitter.png", ns.bio.contacts.twitter));
+        appendToResume(headerFilter, headerArr); // adding contact info to Resume header
 
         var footerFilter = "#footerContacts";
+        var footerArr = [];
 
-        ns.HTMLmobileFooter = (ns.HTMLmobileFooter.replace("%data%", ns.bio.contacts.mobile))
-            .replace("%imagefile%", "images/phone.png");
-        $(footerFilter).append(ns.HTMLmobileFooter);
-
-        ns.HTMLemailFooter = (ns.HTMLemailFooter.replace("%data%", ns.bio.contacts.email))
-            .replace("%imagefile%", "images/email.png");
-        $(footerFilter).append(ns.HTMLemailFooter);
-
-        ns.HTMLgithubFooter = (ns.HTMLgithubFooter.replace("%data%", ns.bio.contacts.github))
-            .replace("%imagefile%", "images/github.png");
-        $(footerFilter).append(ns.HTMLgithubFooter);
-
-        ns.HTMLtwitterFooter = (ns.HTMLtwitterFooter.replace("%data%", ns.bio.contacts.twitter))
-            .replace("%imagefile%", "images/twitter.png");
-        $(footerFilter).append(ns.HTMLtwitterFooter);
+        footerArr.push(replacePlaceholder(ns.HTMLmobileFooter, "images/phone.png", ns.bio.contacts.mobile));
+        footerArr.push(replacePlaceholder(ns.HTMLemailFooter, "images/email.png", ns.bio.contacts.email));
+        footerArr.push(replacePlaceholder(ns.HTMLgithubFooter, "images/github.png", ns.bio.contacts.github));
+        footerArr.push(replacePlaceholder(ns.HTMLtwitterFooter, "images/twitter.png", ns.bio.contacts.twitter));
+        appendToResume(footerFilter, footerArr); // adding contact info to Resume footer
 
 
         var skillsFilter = "#skills";
         if (ns.bio.skills.length > 0) {
-            $(skillsFilter).append(ns.HTMLskillsStart);
+            appendToResume(skillsFilter, [ns.HTMLskillsStart]);
+            var skillsArr = [];
+
             for (var i = 0; i < ns.bio.skills.length; i++) {
-                var formattedSkill = (ns.HTMLskills.replace("%data%", ns.bio.skills[i].technology)).replace("%rating%", ns.bio.skills[i].rating);
-                $(skillsFilter).append(formattedSkill);
+                skillsArr.push(replacePlaceholder(ns.HTMLskills, ns.bio.skills[i].rating, ns.bio.skills[i].technology));
             }
+            appendToResume(skillsFilter, skillsArr); // adding skill set to Resume
         }
 
     };
@@ -154,24 +148,30 @@
     };
 
     /*
-     -- Display function to display Work details.
+     -- display() function to display Work details.
      -- The different placeholder text are replaced with the corresponding property values from the 'work' object
      */
 
     ns.work.display = function () {
         if (ns.work.jobs.length > 0) {
             for (var i = 0; i < ns.work.jobs.length; i++) {
+
+                appendToResume('#work-content', [ns.HTMLworkStart]);
+
                 var workEntryFilter = ".work-entry:last";
-                $('#work-content').append(ns.HTMLworkStart);
+                var workArr = [];
+                var formattedEmployer = replacePlaceholder(ns.HTMLworkEmployer, ns.work.jobs[i].employer);
+                var formattedTitle = replacePlaceholder(ns.HTMLworkTitle, ns.work.jobs[i].title);
 
-                var formattedEmployer = ns.HTMLworkEmployer.replace("%data%", ns.work.jobs[i].employer);
-                var formattedTitle = ns.HTMLworkTitle.replace("%data%", ns.work.jobs[i].title);
-                $(workEntryFilter).append(formattedEmployer + formattedTitle);
+                workArr.push(formattedEmployer + formattedTitle);
 
-                var formattedLocation = ns.HTMLworkLocation.replace("%data%", ns.work.jobs[i].location);
-                var formattedDates = ns.HTMLworkDates.replace("%data%", ns.work.jobs[i].dates);
-                var formattedDescription = ns.HTMLworkDescription.replace("%data%", ns.work.jobs[i].description);
-                $(workEntryFilter).append(formattedDates + formattedLocation + formattedDescription);
+                var formattedLocation = replacePlaceholder(ns.HTMLworkLocation, ns.work.jobs[i].location);
+                var formattedDates = replacePlaceholder(ns.HTMLworkDates, ns.work.jobs[i].dates);
+                var formattedDescription = replacePlaceholder(ns.HTMLworkDescription, ns.work.jobs[i].description);
+
+                workArr.push(formattedDates + formattedLocation + formattedDescription);
+
+                appendToResume(workEntryFilter, workArr); // adding work info to Resume
             }
         }
 
@@ -189,6 +189,7 @@
                 "client": "Quanta Technology",
                 "location": "Raleigh, NC",
                 "dates": "Feb 2013 - present",
+                "url": "http://quanta-technology.com/",
                 "description": "Dominion Maps is an interactive mapping application developed in Silverlight for the Dominion power company. " +
                 "It helps to visualize the live power loads and status of the substations in real time. The backend for the application was " +
                 "housed in OpenPDC server. Infragistics mapping software components were used to display the shapefiles in the Silverlight " +
@@ -200,6 +201,7 @@
                 "client": "Independent Health",
                 "location": "New York City, NY",
                 "dates": "Jan 2012 - Feb 2013",
+                "url": "https://www.independenthealth.com/",
                 "description": "Independence Health is one of the nation's largest health care services companies. Its primary operations " +
                 "include health insurance products for employer groups and Medicare beneficiaries. This project goal was to create a portal " +
                 "for managing business associates and dealers for the management. It facilitates the business to instantly get information " +
@@ -210,6 +212,7 @@
                 "client": "Direct Mortgage Corporation",
                 "location": "Midvale, UT",
                 "dates": "April 2011 - Dec 2011",
+                "url": "https://www.directcorp.com/",
                 "description": "E-Signature is a DMC process to sign the PDF documents by the loan officer. The PDF documents are converted to " +
                 "image format and sent to the browser for signing. The documents are verified page by page with watermark on it. The documents " +
                 "which are not signed are sent back to the borrower for modification/ resubmission. A 50 page document can be easily loaded " +
@@ -220,19 +223,22 @@
     };
 
     /*
-     -- Display function to display Project details.
+     -- display() function to display Project details.
      -- The different placeholder text are replaced with the corresponding property values from the 'project' object
      */
 
     ns.projects.display = function () {
         for (var i = 0; i < ns.projects.projects.length; i++) {
-            $('#project-content').append(ns.HTMLprojectStart);
 
-            var formattedTitle = ns.HTMLprojectTitle.replace("%data%", (ns.projects.projects[i].title + " - " +
-            ns.projects.projects[i].client + ", " + ns.projects.projects[i].location));
-            var formattedDates = ns.HTMLprojectDates.replace("%data%", ns.projects.projects[i].dates);
-            var formattedDescription = ns.HTMLprojectDescription.replace("%data%", ns.projects.projects[i].description);
-            $('.project-entry:last').append(formattedTitle + formattedDates + formattedDescription);
+            appendToResume('#project-content', [ns.HTMLprojectStart]);
+
+            var projectTitle = ns.projects.projects[i].title + " - " + ns.projects.projects[i].client + ", " + ns.projects.projects[i].location;
+            var formattedTitle = replacePlaceholder(ns.HTMLprojectTitle, ns.projects.projects[i].url, projectTitle);
+            var formattedDates = replacePlaceholder(ns.HTMLprojectDates, ns.projects.projects[i].dates);
+            var formattedDescription = replacePlaceholder(ns.HTMLprojectDescription, ns.projects.projects[i].description);
+
+            // adding a short description of the different projects to Resume
+            appendToResume('.project-entry:last', [formattedTitle + formattedDates + formattedDescription]);
 
         }
     };
@@ -272,38 +278,45 @@
     };
 
     /*
-     -- Display function to display Education details.
+     -- display() function to display Education details.
      -- The different placeholder text are replaced with the corresponding property values from the 'education' object.
      */
 
     ns.education.display = function () {
-        for (var i = 0; i < ns.education.schools.length; i++) {
-            $('#education-content').append(ns.HTMLschoolStart);
 
-            var formattedName = ns.HTMLschoolName.replace("%data%", ns.education.schools[i].name);
-            formattedName = formattedName.replace("%url%", ns.education.schools[i].url);
-            var formattedDegree = ns.HTMLschoolDegree.replace("%data%", ns.education.schools[i].degree);
+        for (var i = 0; i < ns.education.schools.length; i++) {
+
+            appendToResume('#education-content', [ns.HTMLschoolStart]);
 
             var educationEntryFilter = ".education-entry:last";
+            var formattedName = replacePlaceholder(ns.HTMLschoolName, ns.education.schools[i].url, ns.education.schools[i].name);
+            var formattedDegree = replacePlaceholder(ns.HTMLschoolDegree, ns.education.schools[i].degree);
+            var educationArr = [];
 
-            $(educationEntryFilter).append(formattedName + formattedDegree);
-            $(educationEntryFilter).append(ns.HTMLschoolDates.replace("%data%", ns.education.schools[i].dates));
-            $(educationEntryFilter).append(ns.HTMLschoolLocation.replace("%data%", ns.education.schools[i].location));
-            $(educationEntryFilter).append(ns.HTMLschoolMajor.replace("%data%", ns.education.schools[i].major));
+            educationArr.push(formattedName + formattedDegree);
+            educationArr.push(replacePlaceholder(ns.HTMLschoolDates, ns.education.schools[i].dates));
+            educationArr.push(replacePlaceholder(ns.HTMLschoolLocation, ns.education.schools[i].location));
+            educationArr.push(replacePlaceholder(ns.HTMLschoolMajor, ns.education.schools[i].major));
+            appendToResume(educationEntryFilter, educationArr); // adding school info to Resume
         }
 
-        $(educationEntryFilter).append(ns.HTMLonlineClasses);
+        if (ns.education.onlineCourses.length > 0) {
 
-        for (i = 0; i < ns.education.onlineCourses.length; i++) {
-            var formattedTitle = ns.HTMLonlineTitle.replace("%data%", ns.education.onlineCourses[i].title);
-            formattedTitle = formattedTitle.replace("%url%", ns.education.onlineCourses[i].url);
-            var formattedSchool = ns.HTMLonlineSchool.replace("%data%", ns.education.onlineCourses[i].school);
-            ns.HTMLonlineURL = (ns.HTMLonlineURL.replace("%data%", ns.education.onlineCourses[i].url))
-                .replace("%url%", ns.education.onlineCourses[i].url);
+            $(educationEntryFilter).append(ns.HTMLonlineClasses);
 
-            $(educationEntryFilter).append(formattedTitle + formattedSchool);
-            $(educationEntryFilter).append(ns.HTMLonlineDates.replace("%data%", ns.education.onlineCourses[i].dates));
-            $(educationEntryFilter).append(ns.HTMLonlineURL);
+            for (i = 0; i < ns.education.onlineCourses.length; i++) {
+
+                var formattedTitle = replacePlaceholder(ns.HTMLonlineTitle, ns.education.onlineCourses[i].url, ns.education.onlineCourses[i].title);
+                var formattedSchool = replacePlaceholder(ns.HTMLonlineSchool, ns.education.onlineCourses[i].school);
+                var formattedOnlineDates = replacePlaceholder(ns.HTMLonlineDates, ns.education.onlineCourses[i].dates);
+                var formattedURL = replacePlaceholder(ns.HTMLonlineURL, ns.education.onlineCourses[i].url, ns.education.onlineCourses[i].url);
+                var courseArr = [];
+
+                courseArr.push(formattedTitle + formattedSchool);
+                courseArr.push(formattedOnlineDates);
+                courseArr.push(formattedURL);
+                appendToResume(educationEntryFilter, courseArr); // adding online course info to Resume, if any
+            }
         }
     };
 
@@ -314,30 +327,30 @@
         "chennai": '<div class="col-lg-8 col-md-8"><h1>City of Chennai</h1><hr><p>Chennai is the capital city of the ' +
         'Indian state of Tamil Nadu. Located on the Coromandel Coast off the Bay of Bengal, it is the biggest industrial ' +
         'and commercial centre in South India, and a major cultural, economic and educational centre. ' +
-        '<a href="http://en.wikipedia.org/wiki/Chennai">Wikipedia</a> </p></div>' +
+        '<a href="http://en.wikipedia.org/wiki/Chennai" target="_blank">Wikipedia</a> </p></div>' +
         '<div class="col-lg-4 col-md-4"><img class="desImage" src="images/chennai.jpg"></div>',
 
         "new york": '<div class="col-lg-8 col-md-8"><h1>New York City</h1><hr><p>New York – often called New York City or' +
         ' the City of New York to distinguish it from the State of New York, of which it is a part – is the most populous ' +
         'city in the United States and the center of the New York metropolitan area, the premier gateway for legal ' +
-        'immigration to the United States. <a href="http://en.wikipedia.org/wiki/New_York_City">Wikipedia</a></p></div>' +
-        '<div class="col-lg-4 col-md-4"><img class="desImage" src="images/newyork.jpg"></div>',
+        'immigration to the United States. <a href="http://en.wikipedia.org/wiki/New_York_City" target="_blank">Wikipedia' +
+        '</a></p></div><div class="col-lg-4 col-md-4"><img class="desImage" src="images/newyork.jpg"></div>',
 
         "raleigh": '<div class="col-lg-8 col-md-8"><h1>City of Raleigh</h1><hr><p> Raleigh is the capital of the state of' +
         ' North Carolina as well as the seat of Wake County in the United States. Raleigh is known as the "City of Oaks" ' +
         'for its many oak trees, which line the streets in the heart of the city. ' +
-        '<a href="http://en.wikipedia.org/wiki/Raleigh,_North_Carolina">Wikipedia</a></p></div>' +
+        '<a href="http://en.wikipedia.org/wiki/Raleigh,_North_Carolina" target="_blank">Wikipedia</a></p></div>' +
         '<div class="col-lg-4 col-md-4"><img class="desImage" src="images/raleigh.jpg"></div>',
 
         "baltimore": '<div class="col-lg-8 col-md-8"><h1>City of Baltimore</h1><hr><p>Baltimore is the largest city in ' +
         'the State of Maryland, the largest independent city in the United States, and the 26th-most populous city in ' +
-        'the country. <a href="http://en.wikipedia.org/wiki/Baltimore">Wikipedia</a></p></div>' +
+        'the country. <a href="http://en.wikipedia.org/wiki/Baltimore" target="_blank">Wikipedia</a></p></div>' +
         '<div class="col-lg-4 col-md-4"><img class="desImage" src="images/baltimore.jpeg"></div>',
 
         "midvale": '<div class="col-lg-8 col-md-8"><h1>City of Midvale</h1><hr><p>Midvale is a city in Salt Lake County, ' +
         'Utah, United States. It is part of the Salt Lake City, Utah Metropolitan Statistical Area. The population was ' +
-        '27,964 at the 2010 census. <a href="http://en.wikipedia.org/wiki/Midvale,_Utah">Wikipedia</a></p></div>' +
-        '<div class="col-lg-4 col-md-4"><img class="desImage" src="images/midvale.jpg"></div>'
+        '27,964 at the 2010 census. <a href="http://en.wikipedia.org/wiki/Midvale,_Utah" target="_blank">Wikipedia</a>' +
+        '</p></div><div class="col-lg-4 col-md-4"><img class="desImage" src="images/midvale.jpg"></div>'
     };
 
     // Calling the display functions for each section of the resume.
